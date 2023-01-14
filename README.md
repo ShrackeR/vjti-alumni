@@ -81,11 +81,11 @@ activity with detail log report.
 ### Tech Stack
 * [Figma](https://www.figma.com/file/0GXumX4oAmMLpwL3Yip0Rj/Website-Design?node-id=0%3A1&t=aNRCxTrQFcX9Vf3D-0)
 * [React](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwigmsm3mMb8AhU4TWwGHUxBApIQFnoECAkQAQ&url=https%3A%2F%2Freactjs.org%2F&usg=AOvVaw26YbpVhaFnAB4A6G8-4uAs)
-*[Flask](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwj23oz1lcb8AhVx8DgGHf61DjsQFnoECAkQAQ&url=https%3A%2F%2Fflask.palletsprojects.com%2F&usg=AOvVaw10INQEbdYkEQIifZAl5hxD)
-*[Html](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjb9-nXmMb8AhWuSWwGHcukBL0QFnoECDwQAQ&url=https%3A%2F%2Fhtml.com%2F&usg=AOvVaw2YFwb7rXo4NSV_-WBWb2Rv)
-*[CSS]
-*[Javascript]
-*[Node.js]
+* [Flask](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwj23oz1lcb8AhVx8DgGHf61DjsQFnoECAkQAQ&url=https%3A%2F%2Fflask.palletsprojects.com%2F&usg=AOvVaw10INQEbdYkEQIifZAl5hxD)
+* [Html](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjb9-nXmMb8AhWuSWwGHcukBL0QFnoECDwQAQ&url=https%3A%2F%2Fhtml.com%2F&usg=AOvVaw2YFwb7rXo4NSV_-WBWb2Rv)
+* CSS
+* Javascript
+* Node.js
 
     
 <!-- GETTING STARTED -->
@@ -94,20 +94,17 @@ activity with detail log report.
 ### Prerequisites
 * [Flask](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwj23oz1lcb8AhVx8DgGHf61DjsQFnoECAkQAQ&url=https%3A%2F%2Fflask.palletsprojects.com%2F&usg=AOvVaw10INQEbdYkEQIifZAl5hxD)
 * [React](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwigmsm3mMb8AhU4TWwGHUxBApIQFnoECAkQAQ&url=https%3A%2F%2Freactjs.org%2F&usg=AOvVaw26YbpVhaFnAB4A6G8-4uAs)
-* 
+
 <!-- CONTRIBUTORS -->
 ## Contributors
-* [Kamakshi Dhokey](https://github.com/K-dhokey)
-* [Nishith Savla]
-* [Aditya Chakraborty]
-* [Shreeraj Redgaonkar]
-* [Dhruv Tiwari]
-* [Dishyank Nayak]
+* Kamakshi Dhokey
+* Nishith Savla
+* Aditya Chakraborty
+* Shreeraj Redgaonkar
+* Dhruv Tiwari
+* Dishyank Nayak
 
-<!-- ACKNOWLEDGEMENTS AND REFERENCES -->
-*(https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwj23oz1lcb8AhVx8DgGHf61DjsQFnoECAkQAQ&url=https%3A%2F%2Fflask.palletsprojects.com%2F&usg=AOvVaw10INQEbdYkEQIifZAl5hxD)
-*(https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwigmsm3mMb8AhU4TWwGHUxBApIQFnoECAkQAQ&url=https%3A%2F%2Freactjs.org%2F&usg=AOvVaw26YbpVhaFnAB4A6G8-4uAs)
 
 <!-- LICENSE -->
 ## License
-Describe your [License](https://github.com/K-dhokey/luke-arm/blob/main/license) for your project. 
+Describe your [License]for your project. 
