@@ -1,5 +1,5 @@
 import re
-from flask import Flask, render_template, request, redirect, session, send_file, jsonify
+from flask import Flask, render_template, request, redirect, session, send_file, jsonify, make_response
 from flask.helpers import url_for
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
@@ -19,7 +19,7 @@ USERNAME="br6045py36xywpd224a5"
 PASSWORD="pscale_pw_HaKKvTgmV1sUYWPJx7blGXbZAgVuR5T4lzs11f0axX5"
 DATABASE="vjti-alumni"
 
-app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://shracker:pGc9NwyeELLcPI2077gF4YNPCFdPkxkk@dpg-cf0k0414reb56qk6mcbg-a.singapore-postgres.render.com/vjti_alumni"
+app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://shracker:pGc9NwyeELLcPI2077gF4YNPCFdPkxkk@dpg-cf0k0414reb56qk6mcbg-a.singapore-postgres.render.com/vjti_alumni_new"
 # app.config["SQLALCHEMY_BINDS"] = {
 #     "users": "sqlite:///users.db",
 #     "events": "sqlite:///events.db",
@@ -94,10 +94,11 @@ class Users(db.Model, UserMixin):
     program_name = db.Column(db.String(100), db.ForeignKey('program.name'))
     reg_no = db.Column(db.Integer)
     is_member = db.Column(db.Boolean)
-    # is_manager = db.Column(db.Boolean, nullable=False)
+    is_employer = db.Column(db.Boolean)
     is_admin = db.Column(db.Boolean, nullable=False)
     comments = db.relationship('post_comments', backref='user')
     posts = db.relationship('posts', backref='user')
+    jobs = db.relationship('jobs',backref='user')
 
     def get_id(self):
         return self.user_email
@@ -108,6 +109,7 @@ class Users(db.Model, UserMixin):
 def test_connection():
     with app.app_context():
         db.create_all()
+        print('created')
 
 class event_urls(db.Model):
     # __bind_key__ = "events"
@@ -163,11 +165,11 @@ class events(db.Model):
     eventid = db.Column(db.Integer, primary_key=True)
     event_title = db.Column(db.String(100), nullable=False)
     event_description = db.Column(db.String(2000), nullable=False)
+    location = db.Column(db.String(2000))
     register_start = db.Column(db.DateTime)
     register_end = db.Column(db.DateTime)
     event_start = db.Column(db.DateTime, nullable=False)
     event_end = db.Column(db.DateTime, nullable=False)
-    result_date = db.Column(db.DateTime)
     urls = db.relationship('event_urls', backref='event')
     def __repr__(self):
         return self.event_title
@@ -184,10 +186,25 @@ class posts(db.Model):
     user_name = db.Column(db.String(100), db.ForeignKey('users.user_email'))
     likes = db.Column(db.Integer)
     def __repr__(self):
-        return self.event_title
+        return self.title
 
-test_connection()
+class jobs(db.Model):
+    # __bind_key__ = "events"
+    jobid = db.Column(db.Integer, primary_key=True)
+    salary = db.Column(db.Integer)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(2000), nullable=False)
+    prerequisites = db.Column(db.String(2000))
+    timestamp = db.Column(db.DateTime, nullable=False)
+    location = db.Column(db.String(2000))
+    user_name = db.Column(db.String(100), db.ForeignKey('users.user_email'))
+    def __repr__(self):
+        return self.title
 
+# test_connection()
+with app.app_context():
+        db.create_all()
+        print('created')
 
 
 # class ManagerModelView(ModelView):
@@ -252,41 +269,210 @@ test_connection()
 # # which tells the application which URL should call
 # # the associated function.
 
+def getevent(eventid):
+    event = events.query.get(eventid)
+    if event != None:
+        urls = []
+        print(event.urls, type(event.urls))
+        for url in event.urls:
+            urls.append(url.url)
+        return {
+        'status':'success', 
+        'data':{
+            'event_title': event.event_title,
+            'event_description': event.event_description,
+            'location':event.location,
+            'register_start': event.register_start,
+            'register_end': event.register_end,
+            'event_start': event.event_start,
+            'event_end': event.event_end,
+            'urls': urls
+        }
+        }
+    else:
+        return {
+            'status': 'failed',
+            'message': 'Invalid eventid'
+            }
 
-@app.route("/events", methods=['GET','POST','PUT','DELETE'])
-def events():
+
+def getpost(eventid):
+    event = posts.query.get(eventid)
+    if event != None:
+        urls = []
+        for url in event.urls:
+            urls.append(url.url)
+        comments = []
+        for url in event.comments:
+            comments.append({'comment':url.comment,'user_email':url.user_name})
+        return {
+        'title': event.title,
+            'description': event.description,
+            'timestamp': event.timestamp,
+            'likes': event.likes,
+            'user_email': event.user_name,
+            'comments': comments,
+            'urls': urls
+        }
+    else:
+        return {
+            'status': 'failed',
+            'message': 'Invalid postid'
+            }
+
+
+def getjob(eventid):
+    event = jobs.query.get(eventid)
+    if event != None:
+        return {
+        'title': event.title,
+            'description': event.description,
+            'timestamp': event.timestamp,
+            'prerequisites': event.prerequisites,
+            'user_email': event.user_name,
+            'location': event.location,
+            'salary': event.salary
+        }
+    else:
+        return {
+            'status': 'failed',
+            'message': 'Invalid jobid'
+            }
+
+@app.route("/event", methods=['GET','POST','PUT','DELETE'])
+def eventmethod():
     if request.method == 'POST':
         try:
             input = request.get_json()
+            print(input)
             urls = input['urls']
-            obj = events(event_title=input['event_title'],event_description=input['event_description'],register_start=input['register_start'],register_end=input['register_end'],event_start=input['event_start'],event_end=input['event_end'])
+            
+            allevents = events.query.all()
+            eventid = len(allevents) + 1
+            obj = events(eventid=eventid, event_title=input['event_title'],event_description=input['event_description'],register_start=datetime.datetime.strptime(input['register_start'], '%d/%m/%Y %H:%M:%S'),register_end=datetime.datetime.strptime(input['register_end'], '%d/%m/%Y %H:%M:%S'),event_start=datetime.datetime.strptime(input['event_start'], '%d/%m/%Y %H:%M:%S'),event_end=datetime.datetime.strptime(input['event_end'], '%d/%m/%Y %H:%M:%S'))
             db.session.add(obj)
-            for url in urls:
-                n = event_urls(url = url, event = obj)
-                db.session.add(n)
-            return True
+            event = events.query.get(eventid)
+            if urls != None:
+                for url in urls:
+                    n = event_urls(url = url, event = event)
+                    db.session.add(n)
+            return jsonify({'status':'success','eventid':eventid})
         except:
             print(traceback.print_exc())
+            return 'Failed'
     elif request.method == 'GET':
         try:
             eventid = request.args.get('eventid')
-            event = events.query.get(eventid)
-            urls = []
-            for url in event.urls:
-                urls.append(url.url)
-            return jsonify({
-               'event_title': event.event_title,
-                'event_description': event.event_description,
-                'register_start': event.register_start,
-                'register_end': event.register_end,
-                'event_start': event.event_start,
-                'event_end': event.event_end,
-                'urls': urls
-            })
+            return jsonify(getevent(eventid))
         except:
             print(traceback.print_exc())
-            return False
+            return 'Failed'
     
+
+@app.route("/event/all", methods=['GET'])
+def allevents():
+    e = events.query.all()
+    eventss = {}
+    for event in e:
+        eventss[event.eventid] = getevent(event.eventid)
+     
+    res = make_response(jsonify({
+        'status':'success',
+        'data': eventss
+        }))
+    res.headers['Access-Control-Allow-Origin'] = '*'
+    return res
+
+
+@app.route("/post/all", methods=['GET'])
+def allposts():
+    e = posts.query.all()
+    events = {}
+    for event in e:
+        events[event.postid] = getpost(event.postid)
+    res = make_response(jsonify({
+        'status':'success',
+        'data': events
+        }))
+    res.headers['Access-Control-Allow-Origin'] = '*'
+    return res
+
+@app.route("/post", methods=['GET','POST','PUT','DELETE'])
+def postmethod():
+    if request.method == 'POST':
+        try:
+            db.session.rollback()
+            input = request.get_json()
+            print(input)
+            urls = input['urls']
+            user_email = input['user_email']
+            user = Users.query.get(user_email)
+            allevents = posts.query.all()
+            eventid = len(allevents) + 1
+            obj = posts(postid = eventid, title=input['title'],description=input['description'],timestamp=datetime.datetime.strptime(input['timestamp'], '%d/%m/%Y %H:%M:%S'),likes=0,user=user)
+            db.session.add(obj)
+            db.session.commit()
+            post = posts.query.get(eventid)
+            if urls != None:
+                for url in urls:
+                    n = post_urls(url = url, post = post)
+                    db.session.add(n)
+                    db.session.commit()
+            return jsonify({'status':'success','postid':eventid})
+        except:
+            db.session.rollback()
+            print(traceback.print_exc())
+            return 'Failed'
+    elif request.method == 'GET':
+        try:
+            eventid = request.args.get('postid')
+            return jsonify(getpost(eventid))
+        except:
+            print(traceback.print_exc())
+            return 'Failed'
+    
+
+
+@app.route("/job/all", methods=['GET'])
+def alljabs():
+    e = jobs.query.all()
+    events = {}
+    for event in e:
+        events[event.jobid] = getjob(event.jobid)
+    res = make_response(jsonify({
+        'status':'success',
+        'data': events
+        }))
+    res.headers['Access-Control-Allow-Origin'] = '*'
+    return res
+
+@app.route("/job", methods=['GET','POST','PUT','DELETE'])
+def jobmethod():
+    if request.method == 'POST':
+        try:
+            db.session.rollback()
+            input = request.get_json()
+            print(input)
+            user_email = input['user_email']
+            user = Users.query.get(user_email)
+            allevents = jobs.query.all()
+            eventid = len(allevents) + 1
+            obj = jobs(jobid = eventid, title=input['title'],description=input['description'],timestamp=datetime.datetime.strptime(input['timestamp'], '%d/%m/%Y %H:%M:%S'),location=input['location'],salary=input['salary'], prerequisites=input['prerequisites'],user=user)
+            db.session.add(obj)
+            db.session.commit()
+            return jsonify({'status':'success','jobid':eventid})
+        except:
+            print(traceback.print_exc())
+            return 'Failed'
+    elif request.method == 'GET':
+        try:
+            eventid = request.args.get('jobid')
+            return jsonify(getjob(eventid))
+        except:
+            print(traceback.print_exc())
+            return 'Failed'
+    
+
 
 
 # @app.route("/about")
