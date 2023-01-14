@@ -84,32 +84,18 @@ activity with detail log report.
 
 ### Tech Stack
 * [Figma](https://www.figma.com/file/0GXumX4oAmMLpwL3Yip0Rj/Website-Design?node-id=0%3A1&t=aNRCxTrQFcX9Vf3D-0)
-* [React]
-*[Flask]
-*[Html]
+* [React](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwigmsm3mMb8AhU4TWwGHUxBApIQFnoECAkQAQ&url=https%3A%2F%2Freactjs.org%2F&usg=AOvVaw26YbpVhaFnAB4A6G8-4uAs)
+*[Flask](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwj23oz1lcb8AhVx8DgGHf61DjsQFnoECAkQAQ&url=https%3A%2F%2Fflask.palletsprojects.com%2F&usg=AOvVaw10INQEbdYkEQIifZAl5hxD)
+*[Html](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjb9-nXmMb8AhWuSWwGHcukBL0QFnoECDwQAQ&url=https%3A%2F%2Fhtml.com%2F&usg=AOvVaw2YFwb7rXo4NSV_-WBWb2Rv)
 *[CSS]
 *[Javascript]
 *[Node.js]
 
-### File Structure
-     .
-    ├── Components              # Contains files of specific library of functions or Hardware used
-    │    ├──esp_now             # Contains the code to setup connection using ESP-NOW. 
-    │    ├──CMakeLists.txt      # To include this component in a esp-idf 
-    ├── docs                    # Documentation files 
-    │   ├── report.pdf          # Project report
-    │   └── results             # Folder containing the video, gifs of the result
-    ├── main                    # Source files of project
-    │   ├──main.c               # Main Source code.
-    │   ├──kconfig.projbuild    # Shows the menu of project configuration
-    │   ├──CMakeLists.txt       # To include source code files in esp-idf.
-    ├── CmakeLists.txt          # To include components and main folder while executing
-    ├── LICENSE
-    └── README.md 
-    
     
 <!-- GETTING STARTED -->
 ## Getting Started
 
 ### Prerequisites
 * [Flask](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwj23oz1lcb8AhVx8DgGHf61DjsQFnoECAkQAQ&url=https%3A%2F%2Fflask.palletsprojects.com%2F&usg=AOvVaw10INQEbdYkEQIifZAl5hxD)
+* [React](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwigmsm3mMb8AhU4TWwGHUxBApIQFnoECAkQAQ&url=https%3A%2F%2Freactjs.org%2F&usg=AOvVaw26YbpVhaFnAB4A6G8-4uAs)
+*
